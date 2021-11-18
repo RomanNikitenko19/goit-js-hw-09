@@ -21,11 +21,9 @@ const options = {
   onClose(selectedDates) {
     // console.log(selectedDates[0]);//time left
 
-    if (selectedDates[0] <= new Date()) {
-      Notiflix.Notify.warning('Please choose a date in the future');
-    } else {
-      refs.btn.removeAttribute('disabled');
-    }
+    (selectedDates[0] <= new Date())
+      ? Notiflix.Notify.warning('Please choose a date in the future')
+      : refs.btn.removeAttribute('disabled');
 
     const handleClick = () => {
       refs.input.setAttribute('disabled', true);
@@ -34,18 +32,19 @@ const options = {
         refs.btn.setAttribute('disabled', true);
         const timeLeft = selectedDates[0] - new Date();
         const { days, hours, minutes, seconds } = convertMs(timeLeft);
+
         if (timeLeft <= 0) {
           Notiflix.Notify.info('the time has come');
           refs.input.removeAttribute('disabled');
           clearInterval(timerId);
           refs.btn.removeEventListener('click', handleClick);
           // document.location.reload();
-
         }
-        refs.spanDays.textContent = addLeadingZero(days, 3); //days.toString().padStart(3, '0');
-        refs.spanHours.textContent = addLeadingZero(hours, 2); //hours.toString().padStart(2, '0');
-        refs.spanMinutes.textContent = addLeadingZero(minutes, 2); //minutes.toString().padStart(2, '0');
-        refs.spanSeconds.textContent = addLeadingZero(seconds, 2); //seconds.toString().padStart(2, '0');
+
+          refs.spanDays.textContent = addLeadingZero(days, 3); //days.toString().padStart(3, '0');
+          refs.spanHours.textContent = addLeadingZero(hours, 2); //hours.toString().padStart(2, '0');
+          refs.spanMinutes.textContent = addLeadingZero(minutes, 2); //minutes.toString().padStart(2, '0');
+          refs.spanSeconds.textContent = addLeadingZero(seconds, 2); //seconds.toString().padStart(2, '0');
       }, 1000);
     };
     refs.btn.addEventListener('click', handleClick);
